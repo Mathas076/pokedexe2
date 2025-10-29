@@ -44,7 +44,7 @@ const PokemonViewer: React.FC = () => {
 
   if (loading)
     return (
-      <View className="flex-1 justify-center items-center bg-white w-screen h-screen">
+      <View className="flex-1 justify-center items-center ">
         <ActivityIndicator size="large" color="#facc15" />
         <CustomText variant="Descripcion" dark>
           Cargando...
@@ -54,7 +54,7 @@ const PokemonViewer: React.FC = () => {
 
   if (error)
     return (
-      <View className="flex-1 justify-center items-center bg-white">
+      <View className="flex-1 justify-center items-center bg-red-500">
         <CustomText variant="Descripcion" dark>
           Error: {error}
         </CustomText>
@@ -64,7 +64,7 @@ const PokemonViewer: React.FC = () => {
   if (!pokemon) return null;
 
   return (
-    <View className="flex-1 justify-center items-center bg-white p-4">
+    <View className="flex-1 items-center bg-red-500 p-4 w-100% h-80%">
       <CustomText variant="Nombre" dark>
         {pokemon.name.toUpperCase()}
       </CustomText>
@@ -75,7 +75,7 @@ const PokemonViewer: React.FC = () => {
         resizeMode="contain"
       />
 
-      <CustomText variant="Dato" dark>
+      <CustomText variant="Dato">
         Tipo: {pokemon.types.join(", ")}
       </CustomText>
     </View>
