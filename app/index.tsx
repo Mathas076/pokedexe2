@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   return (
-    <SafeAreaView className="w-screen h-screen bg-white">
+    <SafeAreaView edges={[]} className="w-screen h-screen bg-white">
       <Pokedex></Pokedex>
     </SafeAreaView>
   );
