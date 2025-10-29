@@ -44,11 +44,11 @@ const Pokedex: React.FC = () => {
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>("mimikyu-disguised");
+  const [searchTerm, setSearchTerm] = useState<string>("pikachu");
   const [allPokemon, setAllPokemon] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  // 🔹 Cargar lista de nombres al inicio
+  // Cargar lista de nombres al inicio
   useEffect(() => {
     const loadAllPokemon = async () => {
       try {
@@ -65,7 +65,7 @@ const Pokedex: React.FC = () => {
     loadAllPokemon();
   }, []);
 
-  // 🔹 Buscar Pokémon por nombre o ID
+  // Buscar Pokémon por nombre o ID
   const fetchPokemon = async (term: string, indexInFiltered?: number) => {
     try {
       setLoading(true);
@@ -112,7 +112,7 @@ const Pokedex: React.FC = () => {
     }
   };
 
-  // 🔹 Buscar Pokémon más parecido (solo para texto)
+  // Buscar Pokémon más parecido (solo para texto)
   const findSimilarPokemon = (term: string) => {
     if (allPokemon.length === 0) return;
     const similar =
@@ -129,7 +129,7 @@ const Pokedex: React.FC = () => {
     if (searchTerm.trim() !== "") fetchPokemon(searchTerm.trim());
   };
 
-  // 🔹 Botón siguiente
+  // Botón siguiente
   const handleNext = () => {
     if (!pokemon) return;
 
@@ -144,7 +144,7 @@ const Pokedex: React.FC = () => {
     }
   };
 
-  // 🔹 Botón anterior
+  // Botón anterior
   const handlePrevious = () => {
     if (!pokemon) return;
 
@@ -166,6 +166,21 @@ const Pokedex: React.FC = () => {
     return typeColors[mainType] || typeColors.default;
   };
 
+  const getImageBackgroundColor = () => {
+    if (!pokemon || pokemon.types.length === 0) return "bg-gray-200"; // neutro
+    const mainType = pokemon.types[0];
+    switch (mainType) {
+      case "fire":
+      case "dark":
+      case "psychic":
+      case "poison":
+        return "bg-white"; // contraste con colores oscuros
+      default:
+        return "bg-gray-200"; // contraste con colores claros
+    }
+  };
+
+  // Carga inicial
   useEffect(() => {
     if (allPokemon.length > 0) fetchPokemon(searchTerm);
   }, [allPokemon]);
@@ -177,7 +192,7 @@ const Pokedex: React.FC = () => {
         <TextInput
           value={searchTerm}
           onChangeText={setSearchTerm}
-          placeholder="Escribe un nombre o numero"
+          placeholder="Escribe el nombre o ID del Pokémon..."
           className="bg-white rounded-xl px-4 py-2 text-black w-2/3"
           autoCapitalize="none"
         />
@@ -234,11 +249,14 @@ const Pokedex: React.FC = () => {
           {/* Mostrar ID */}
           <CustomText variant="Dato">ID: {pokemon.id}</CustomText>
 
-          <Image
-            source={{ uri: pokemon.image }}
-            className="w-40 h-40 my-4"
-            resizeMode="contain"
-          />
+          {/* Imagen con fondo contrastante */}
+          <View className={`${getImageBackgroundColor()} p-4 rounded-2xl my-4`}>
+            <Image
+              source={{ uri: pokemon.image }}
+              className="w-40 h-40"
+              resizeMode="contain"
+            />
+          </View>
 
           <CustomText variant="Dato">
             Tipo: {pokemon.types.join(", ")}
